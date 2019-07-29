@@ -3,18 +3,18 @@ from werkzeug import secure_filename
 app = Flask(__name__)
 
 # TODO should these be globals
-view_data = {'subject' : '', 'question' : '', 'answer' : ''}
+view_data = {'subject' : 'nothing yet', 'question' : 'no question', 'answer' : 'no answer'}
 
 @app.route('/upload')
 def upload_file():
-   return render_template('my-form.html', result=view_data['subject'])
+   return render_template('my-form.html', result=view_data)
 
 @app.route('/uploader', methods = ['GET', 'POST'])
 def uploader_file():
    if request.method == 'POST':
       print(request.form['subject'])
       view_data['subject'] = request.form['subject']
-      return render_template('my-form.html', result=view_data['subject'])
+      return render_template('my-form.html', result=view_data)
 
 
 if __name__ == '__main__':
