@@ -1,18 +1,23 @@
-<form action="http://localhost:5001/uploader" method = "POST"
-      enctype = "multipart/form-data">
+<!doctype html>
+<!--link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}"-->
+  <head>
+  </head>
+  <body>
+    <div class="header">
+      <h1>SQuAD (Fine-tuned from BERT)</h1> 
+    </div>
+    <form action="http://localhost:5001/uploader" method = "POST"
+	  enctype = "multipart/form-data">
+      <h2>Provide Context</h2>
+      <textarea name="context" rows="10" cols="60">{{ result.context }}</textarea>
+      <input type="submit" value= "Sample context & question">
 
-  <textarea name="context" rows="10" cols="60">{{ result.context }}</textarea>
-  <!--input type="submit" value="submit subject-matter"-->
+      <h2>Enter a question</h2>
+      <textarea name="question" rows="2" cols="60">{{ result.question }}</textarea>
+      <input type="submit" value= "Submit context & question">
 
-  <br>
-  <br>
-  <textarea name="question" rows="2" cols="30">{{ result.question }}</textarea>
-  <input type="submit" value= "context+question">
-
-</form>
-<br>
-<br>
-<textarea name="answer" rows="2" cols="30">{{ result.answer }}</textarea>
-
-
-
+    </form>
+    <h2>Answers (top5)</h2>
+    <textarea name="answer" rows="15" cols="60">{{ result.answer }}</textarea>
+  </body>
+</html>
