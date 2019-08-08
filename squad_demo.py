@@ -14,9 +14,9 @@ view_data = {'context' : 'nothing yet', 'question' : 'no question', 'answer' : '
 @app.route('/squad_demo')
 def upload_file():
    print("SQUAD is initializing:..wait!")
-   global squad_qa
-   squad_qa = SquadQA()
-   squad_qa.squad_setup_for_inference()
+   # global squad_qa
+   # squad_qa = SquadQA()
+   # squad_qa.squad_setup_for_inference()
    print("--------------------------------")
    print("SQUAD initialized: Ready for Q&A")
    print("--------------------------------")
