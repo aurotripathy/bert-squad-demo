@@ -6,6 +6,9 @@
     #preset_div {
     width: 500px;
     }
+    #clear_div {
+    width: 500px;
+    }
 
     button {
     float: right;
@@ -67,8 +70,10 @@
 
     </form>
   </div>
-
   <h2>Answers (top 5)</h2>
   <textarea name="answer" rows="15" cols="60">{{ result.answer }}</textarea>
+  <div id="clear_div">
+    <a href="http://localhost:5001/clear"><button>Clear</button></a>
+  </div>
 </body>
 </html>
