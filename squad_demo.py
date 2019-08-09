@@ -14,9 +14,9 @@ view_data = {'context' : 'nothing yet', 'question' : 'no question', 'answer' : '
 @app.route('/squad_demo')
 def upload_file():
    print("SQUAD is initializing:..wait!")
-   # global squad_qa
-   # squad_qa = SquadQA()
-   # squad_qa.squad_setup_for_inference()
+   global squad_qa
+   squad_qa = SquadQA()
+   squad_qa.squad_setup_for_inference()
    print("--------------------------------")
    print("SQUAD initialized: Ready for Q&A")
    print("--------------------------------")
@@ -35,6 +35,21 @@ def uploader_file():
                                                      request.form['question'])
       return render_template('squad-form.html', result=view_data)
 
+@app.route('/preset', methods = ['GET', 'POST'])
+def preset():
+   print("Preset was clicked.")
+   if request.method == 'GET':
+      contexts, questions = squad_qa.get_preset_qas()
+      print("Context:\n")
+      print(contexts[0])
+      print("Question:\n")
+      print(questions[0])
+      view_data['context'] = contexts[0]
+      view_data['question'] = questions[0]
+      view_data['answer'] = ""
+   
+   return render_template('squad-form.html', result=view_data)
+   
 
 if __name__ == '__main__':
    app.run(host='0.0.0.0', port=5001, debug = True)
