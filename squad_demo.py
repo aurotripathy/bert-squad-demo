@@ -1,12 +1,25 @@
-
+"""
+User interface to drive the SQuAD demo
+"""
 import sys
 sys.path.append('../bert')
+import json
 
 from run_eval_squad import SquadQA
 
 from flask import Flask, render_template, request
 from werkzeug import secure_filename
 app = Flask(__name__)
+
+def format_answer(answer):
+   sample = json.loads(answer)
+
+   out = ""
+   for s in sample[""]:
+      out = out + 'probability: ' + str(s['probability']) + '   ' + \
+            'answer: ' +  s['text'] + '\n'
+
+   return out
 
 # TODO should these be globals
 view_data = {'context' : 'nothing yet', 'question' : 'no question', 'answer' : 'no answer'}
@@ -31,8 +44,9 @@ def uploader_file():
       print(request.form['question'])
       view_data['context'] = request.form['context']
       view_data['question'] = request.form['question']
-      view_data['answer'] = squad_qa.answer_question(request.form['context'],
-                                                     request.form['question'])
+      answer = squad_qa.answer_question(request.form['context'],
+                                        request.form['question'])
+      view_data['answer'] = format_answer(answer)
       return render_template('squad-form.html', result=view_data)
 
 @app.route('/preset', methods = ['GET', 'POST'])
@@ -49,7 +63,15 @@ def preset():
       view_data['answer'] = ""
    
    return render_template('squad-form.html', result=view_data)
+
+@app.route('/clear', methods = ['GET', 'POST'])
+def clear():
+   print("Clear was clicked.")
+   if request.method == 'GET':
+      view_data['answer'] = ""
    
+   return render_template('squad-form.html', result=view_data)
+
 
 if __name__ == '__main__':
    app.run(host='0.0.0.0', port=5001, debug = True)
