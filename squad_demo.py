@@ -4,6 +4,8 @@ User interface to drive the SQuAD demo
 import sys
 sys.path.append('../bert')
 import json
+import random
+from pudb import set_trace
 
 from run_eval_squad import SquadQA
 
@@ -15,9 +17,11 @@ def format_answer(answer):
    sample = json.loads(answer)
 
    out = ""
+   set_trace()
    for s in sample[""]:
-      out = out + 'probability: ' + str(s['probability']) + '   ' + \
-            'answer: ' +  s['text'] + '\n'
+      out = out + 'Probability: ' + \
+            '{0:.2f}'.format(s['probability']) + '   ' + \
+            'Answer: ' +  s['text'] + '\n'
 
    return out
 
@@ -54,12 +58,13 @@ def preset():
    print("Preset was clicked.")
    if request.method == 'GET':
       contexts, questions = squad_qa.get_preset_qas()
+      choice = random.randint(0, len(contexts) - 1) 
       print("Context:\n")
       print(contexts[0])
       print("Question:\n")
       print(questions[0])
-      view_data['context'] = contexts[0]
-      view_data['question'] = questions[0]
+      view_data['context'] = contexts[choice]
+      view_data['question'] = questions[choice]
       view_data['answer'] = ""
    
    return render_template('squad-form.html', result=view_data)
